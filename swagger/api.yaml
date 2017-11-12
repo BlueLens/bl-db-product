@@ -1,0 +1,115 @@
+swagger: '2.0'
+info:
+  description: This is a API document for Product DB
+  version: 0.0.1
+  title: bl-db-product
+  contact:
+    email: master@bluehack.net
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'db-product.stylelens.io'
+basePath: /
+tags:
+  - name: product
+    description: product
+schemes:
+  - http
+paths:
+  /products:
+    post:
+      tags:
+      - "product"
+      summary: "Added a new Product"
+      description: ""
+      operationId: addProduct
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: body
+          description: Product object that needs to be added to the db.
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AddProductResponse'
+        400:
+          description: Invalid input
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Image:
+    type: object
+    properties:
+      origin:
+        type: string
+      mobile:
+        type: string
+      main:
+        type: integer
+        description: "1: main, 0: sub image"
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+      host_code:
+        type: string
+      host_url:
+        type: string
+      host_name:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      parent_image_raw:
+        type: string
+      parent_image_mobile:
+        type: string
+      parent_image_mobile_thumb:
+        type: string
+      class_code:
+        type: string
+        example: "n0100001"
+      price:
+        type: string
+      currency_unit:
+        type: string
+      product_url:
+        type: string
+      product_no:
+        type: string
+      main:
+        type: integer
+      nation:
+        type: string
+      images:
+        type: array
+        items:
+          $ref: '#definitions/Image'
+  AddProductResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          _id:
+            type: string
+externalDocs:
+  description: Find out more about BlueLens
+  url: 'http://bluelens.io'
