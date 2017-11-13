@@ -19,21 +19,21 @@ paths:
   /products:
     post:
       tags:
-      - "product"
+      - product
       summary: "Added a new Product"
       description: ""
       operationId: addProduct
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - in: body
-          name: body
-          description: Product object that needs to be added to the db.
-          required: true
-          schema:
-            $ref: '#/definitions/Product'
+      - in: body
+        name: body
+        description: Product object that needs to be added to the db.
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
       responses:
         200:
           description: successful operation
@@ -41,13 +41,82 @@ paths:
             $ref: '#/definitions/AddProductResponse'
         400:
           description: Invalid input
+    put:
+      tags:
+      - product
+      summary: "Update an existing Product"
+      description: ""
+      operationId: updateProduct
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be updated to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+        405:
+          description: "Validation exception"
+  /products/{productId}:
+    get:
+      tags:
+      - product
+      summary: "Find Product by ID"
+      description: "Returns a single Product"
+      operationId: "getProductById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of Product to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+    delete:
+      tags:
+      - product
+      summary: "Deletes a Product"
+      description: ""
+      operationId: "deleteProduct"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "Product id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
 securityDefinitions:
   api_key:
     type: apiKey
     name: api_key
     in: header
 definitions:
-  Image:
+  SubImage:
     type: object
     properties:
       origin:
@@ -56,7 +125,47 @@ definitions:
         type: string
       main:
         type: integer
+        format: int32
         description: "1: main, 0: sub image"
+  Feedback:
+    type: object
+    properties:
+      photo:
+        type: string
+      text:
+        type: string
+      write_date:
+        type: string
+      total_count:
+        type: integer
+        format: int32
+      photo_count:
+        type: integer
+        format: int32
+      likes:
+        type: integer
+        format: int32
+      writer:
+        $ref: "#/definitions/Writer"
+  Writer:
+    type: object
+    properties:
+      id:
+        type: string
+      grade:
+        type: string
+      height:
+        type: integer
+        format: int32
+      weight:
+        type: integer
+        format: int32
+      my_size:
+        type: string
+      product_size:
+        type: string
+      color:
+        type: string
   Product:
     type: object
     properties:
@@ -91,12 +200,25 @@ definitions:
         type: string
       main:
         type: integer
+        format: int32
       nation:
         type: string
-      images:
+      main_image:
+        type: string
+      sub_images:
         type: array
         items:
-          $ref: '#definitions/Image'
+          type: string
+      sizes:
+        type: array
+        items:
+          type: string
+      discount_rate:
+        type: integer
+        format: int32
+      feedback:
+        $ref: "#/definitions/Feedback"
+
   AddProductResponse:
     type: object
     properties:
