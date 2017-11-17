@@ -1,55 +1,57 @@
-swagger: '2.0'
+---
+swagger: "2.0"
 info:
-  description: This is a API document for Product DB
-  version: 0.0.1
-  title: bl-db-product
+  description: "This is a API document for Product DB"
+  version: "0.0.1"
+  title: "bl-db-product"
   contact:
-    email: master@bluehack.net
+    email: "master@bluehack.net"
   license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 'product.stylelens.io'
-basePath: /
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "product.stylelens.io"
+basePath: "/"
 tags:
-  - name: product
-    description: product
-  - name: version
-    description: product
+- name: "product"
+  description: "product"
+- name: "version"
+  description: "product"
 schemes:
-  - http
+- "http"
 paths:
   /versions:
     post:
       tags:
-      - version
+      - "version"
       summary: "Add a new Version"
       description: ""
-      operationId: addVersion
+      operationId: "add_version"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: body
-        name: body
-        description: Version object that needs to be added to the db.
+      - in: "body"
+        name: "body"
+        description: "Version object that needs to be added to the db."
         required: true
         schema:
-          $ref: '#/definitions/Version'
+          $ref: "#/definitions/Version"
       responses:
         200:
-          description: successful operation
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/AddVersionResponse'
+            $ref: "#/definitions/AddVersionResponse"
         400:
-          description: Invalid input
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.version_controller"
   /versions/{versionId}:
     get:
       tags:
-      - version
+      - "version"
       summary: "Gat Version by ID"
       description: "Returns a Version"
-      operationId: "getVersionById"
+      operationId: "get_version_by_id"
       produces:
       - "application/json"
       parameters:
@@ -57,7 +59,7 @@ paths:
         in: "path"
         description: "ID of Version to return"
         required: true
-        type: string
+        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -67,15 +69,17 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
+      x-swagger-router-controller: "swagger_server.controllers.version_controller"
   /versions/latest:
     get:
       tags:
-      - version
+      - "version"
       summary: "Gat latest Version"
       description: "Returns a latest Version"
-      operationId: "getLatestVersion"
+      operationId: "get_latest_version"
       produces:
       - "application/json"
+      parameters: []
       responses:
         200:
           description: "successful operation"
@@ -85,38 +89,39 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
-
+      x-swagger-router-controller: "swagger_server.controllers.version_controller"
   /products:
     post:
       tags:
-      - product
+      - "product"
       summary: "Added a new Product"
       description: ""
-      operationId: addProduct
+      operationId: "add_product"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: body
-        name: body
-        description: Product object that needs to be added to the db.
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the db."
         required: true
         schema:
-          $ref: '#/definitions/Product'
+          $ref: "#/definitions/Product"
       responses:
         200:
-          description: successful operation
+          description: "successful operation"
           schema:
-            $ref: '#/definitions/AddProductResponse'
+            $ref: "#/definitions/AddProductResponse"
         400:
-          description: Invalid input
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
     put:
       tags:
-      - product
+      - "product"
       summary: "Update an existing Product"
       description: ""
-      operationId: updateProduct
+      operationId: "update_product"
       consumes:
       - "application/json"
       produces:
@@ -130,22 +135,23 @@ paths:
           $ref: "#/definitions/Product"
       responses:
         200:
-          description: successfully updated
+          description: "successfully updated"
           schema:
-            $ref: '#/definitions/UpdateProductResponse'
+            $ref: "#/definitions/UpdateProductResponse"
         400:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
         405:
           description: "Validation exception"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /products/{productId}:
     get:
       tags:
-      - product
+      - "product"
       summary: "Find Product by ID"
       description: "Returns a single Product"
-      operationId: "getProductById"
+      operationId: "get_product_by_id"
       produces:
       - "application/json"
       parameters:
@@ -153,7 +159,7 @@ paths:
         in: "path"
         description: "ID of Product to return"
         required: true
-        type: string
+        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -163,12 +169,13 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
     delete:
       tags:
-      - product
+      - "product"
       summary: "Deletes a Product"
       description: ""
-      operationId: "deleteProductById"
+      operationId: "delete_product_by_id"
       produces:
       - "application/json"
       parameters:
@@ -176,7 +183,7 @@ paths:
         in: "path"
         description: "Product id to delete"
         required: true
-        type: string
+        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -186,187 +193,182 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
 securityDefinitions:
   api_key:
-    type: apiKey
-    name: api_key
-    in: header
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
 definitions:
   SubImage:
-    type: object
+    type: "object"
     properties:
       origin:
-        type: string
+        type: "string"
       mobile:
-        type: string
+        type: "string"
       main:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
         description: "1: main, 0: sub image"
   Feedback:
-    type: object
+    type: "object"
     properties:
       photo:
-        type: array
+        type: "array"
         items:
-          type: string
+          type: "string"
       text:
-        type: string
+        type: "string"
       write_date:
-        type: string
+        type: "string"
       total_count:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       photo_count:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       likes:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       writer:
         $ref: "#/definitions/Writer"
   Writer:
-    type: object
+    type: "object"
     properties:
       id:
-        type: string
+        type: "string"
       grade:
-        type: string
+        type: "string"
       height:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       weight:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       my_size:
-        type: string
+        type: "string"
       product_size:
-        type: string
+        type: "string"
       color:
-        type: string
+        type: "string"
   Version:
-    type: object
+    type: "object"
     properties:
       id:
-        type: string
+        type: "string"
       created_at:
-        type: string
-        format: date-time
+        type: "string"
+        format: "date-time"
       name:
-        type: string
+        type: "string"
   Product:
-    type: object
+    type: "object"
     properties:
       id:
-        type: string
+        type: "string"
       name:
-        type: string
+        type: "string"
       host_code:
-        type: string
+        type: "string"
       host_url:
-        type: string
+        type: "string"
       host_name:
-        type: string
+        type: "string"
       tags:
-        type: array
+        type: "array"
         items:
-          type: string
+          type: "string"
       class_code:
-        type: string
+        type: "string"
         example: "n0100001"
       price:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       currency_unit:
-        type: string
+        type: "string"
       product_url:
-        type: string
+        type: "string"
       product_no:
-        type: string
+        type: "string"
       nation:
-        type: string
+        type: "string"
       main_image:
-        type: string
+        type: "string"
         description: "image url"
       main_image_mobile:
-        type: string
+        type: "string"
         description: "Mobile size image url"
       sub_images:
-        type: array
+        type: "array"
         items:
-          type: string
+          type: "string"
       sizes:
-        type: array
+        type: "array"
         items:
-          type: string
+          type: "string"
       discount_rate:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       feedback:
-        type: array
+        type: "array"
         items:
           $ref: "#/definitions/Feedback"
       version:
         $ref: "#/definitions/Version"
-
   AddProductResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
+        type: "string"
       data:
-        type: object
-        properties:
-          product_id:
-            type: string
-
+        $ref: "#/definitions/AddProductResponse_data"
   GetProductResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
+        type: "string"
       data:
         $ref: "#/definitions/Product"
-
   UpdateProductResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
-
+        type: "string"
   DeleteProductResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
-
+        type: "string"
   AddVersionResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
+        type: "string"
       data:
-        type: object
-        properties:
-          version_id:
-            type: string
-
+        $ref: "#/definitions/AddVersionResponse_data"
   GetVersionResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
+        type: "string"
       data:
         $ref: "#/definitions/Version"
-
   LatestVersionResponse:
-    type: object
+    type: "object"
     properties:
       message:
-        type: string
+        type: "string"
       data:
         $ref: "#/definitions/Version"
-
+  AddProductResponse_data:
+    properties:
+      product_id:
+        type: "string"
+  AddVersionResponse_data:
+    properties:
+      version_id:
+        type: "string"
 externalDocs:
-  description: Find out more about BlueLens
-  url: 'http://bluelens.io'
+  description: "Find out more about BlueLens"
+  url: "http://bluelens.io"
