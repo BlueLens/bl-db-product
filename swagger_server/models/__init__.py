@@ -9,6 +9,7 @@ from .add_version_response_data import AddVersionResponseData
 from .delete_product_response import DeleteProductResponse
 from .feedback import Feedback
 from .get_product_response import GetProductResponse
+from .get_products_response import GetProductsResponse
 from .get_version_response import GetVersionResponse
 from .latest_version_response import LatestVersionResponse
 from .product import Product

@@ -47,6 +47,16 @@ def get_product_by_id(productId):
     print(productId)
     return Products.get_product_by_id(productId)
 
+def get_products_by_hostcode(hostCode):
+    """
+    Get Product by host_code
+    Returns Products belongs to a Host
+    :param hostCode:
+    :type hostCode: str
+
+    :rtype: GetProductsResponse
+    """
+    return Products.get_product_by_host_code(hostCode)
 
 def update_product(body):
     """

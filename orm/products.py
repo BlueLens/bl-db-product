@@ -4,6 +4,7 @@ from orm.database import DataBase
 from swagger_server.models.product import Product
 from swagger_server.models.add_product_response import AddProductResponse
 from swagger_server.models.get_product_response import GetProductResponse
+from swagger_server.models.get_products_response import GetProductsResponse
 from swagger_server.models.delete_product_response import DeleteProductResponse
 from swagger_server.models.add_product_response_data import AddProductResponseData
 
@@ -61,6 +62,25 @@ class Products(DataBase):
     print('get_product')
     orm = Products()
     res = GetProductResponse()
+    response_status = 200
+
+    try:
+      r = orm.products.find_one({"_id": ObjectId(product_id)})
+      res.message = 'Successful'
+      product = Product.from_dict(r)
+      product.id = str(r['_id'])
+      res.data = product.to_dict()
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
+
+  @staticmethod
+  def get_product_by_host_code(host_code):
+    print('get_products')
+    orm = Products()
+    res = GetProductsResponse()
     response_status = 200
 
     try:
