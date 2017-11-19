@@ -1,4 +1,5 @@
 
+import os
 from bson.objectid import ObjectId
 from orm.database import DataBase
 from swagger_server.models.product import Product
@@ -10,6 +11,16 @@ from swagger_server.models.add_product_response_data import AddProductResponseDa
 
 from swagger_server.models.update_product_response import UpdateProductResponse
 
+from bluelens_log import Logging
+
+REDIS_SERVER = os.environ['REDIS_SERVER']
+REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
+
+options = {
+  'REDIS_SERVER': REDIS_SERVER,
+  'REDIS_PASSWORD': REDIS_PASSWORD
+}
+log = Logging(options, tag='bl-db-product:Products')
 
 class Products(DataBase):
   def __init__(self):
@@ -34,15 +45,18 @@ class Products(DataBase):
         res.message = str(e)
         response_status = 400
 
+    log.debug(res)
     return res, response_status
 
   @staticmethod
   def update_product(connexion):
+    log.info('update_product')
     orm = Products()
     res = UpdateProductResponse()
     response_status = 200
     if connexion.request.is_json:
       product = Product.from_dict(connexion.request.get_json())
+      log.debug(product)
 
       try:
         r = orm.products.update_one({"_id": ObjectId(product.id)},
@@ -55,6 +69,7 @@ class Products(DataBase):
         res.message = str(e)
         response_status = 400
 
+    log.debug(res)
     return res, response_status
 
   @staticmethod
@@ -74,11 +89,12 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
+    log.debug(res)
     return res, response_status
 
   @staticmethod
   def get_product_by_host_code(host_code):
-    print('get_products')
+    log.info('get_product_by_host_code')
     orm = Products()
     res = GetProductsResponse()
     response_status = 200
@@ -89,7 +105,7 @@ class Products(DataBase):
 
       products = []
       for r in response:
-        print(r)
+        log.debug(r)
         product = Product.from_dict(r)
         product.id = str(r['_id'])
         products.append(product)
@@ -98,6 +114,7 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
+    log.debug(res)
     return res, response_status
 
   @staticmethod
@@ -115,5 +132,7 @@ class Products(DataBase):
     except Exception as e:
       res.message = str(e)
       response_status = 400
+
+    log.debug(res)
 
     return res, response_status

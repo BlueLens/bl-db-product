@@ -372,9 +372,12 @@ definitions:
       main_image:
         type: "string"
         description: "image url"
-      main_image_mobile:
+      main_image_mobile_full:
         type: "string"
-        description: "Mobile size image url"
+        description: "Mobile full size of image url"
+      main_image_mobile_thumb:
+        type: "string"
+        description: "Mobile thumbnail size of image url"
       sub_images:
         type: "array"
         items:
