@@ -210,6 +210,55 @@ paths:
           description: "Invalid input supplied"
         404:
           description: "Host not found"
+  /objects:
+    post:
+      tags:
+      - object
+      summary: "Added a new Object"
+      description: ""
+      operationId: addObject
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: body
+        description: Object that needs to be added to the db.
+        required: true
+        schema:
+          $ref: '#/definitions/Object'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AddObjectResponse'
+        400:
+          description: Invalid input
+  /objects/{objectId}:
+    get:
+      tags:
+      - object
+      summary: "Find Object by ID"
+      description: "Returns a single Object"
+      operationId: "getObjectById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "objectId"
+        in: "path"
+        description: "ID of Object to return"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetObjectResponse"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
 securityDefinitions:
   api_key:
     type: apiKey
@@ -333,6 +382,40 @@ definitions:
       version:
         $ref: "#/definitions/Version"
 
+  Object:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      product_id:
+        type: string
+      version:
+        type: string
+      class_code:
+        type: string
+      class_name:
+        type: string
+      storage:
+        type: string
+      bucket:
+        type: string
+      color:
+        type: integer
+        format: int32
+      texture:
+        type: string
+      fabric:
+        type: string
+      shape:
+        type: string
+      part:
+        type: string
+      style:
+        type: string
+
+
   AddProductResponse:
     type: object
     properties:
@@ -400,6 +483,25 @@ definitions:
         type: string
       data:
         $ref: "#/definitions/Version"
+
+  AddObjectResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          object_id:
+            type: string
+
+  GetObjectResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        $ref: "#/definitions/Object"
 
 externalDocs:
   description: Find out more about BlueLens

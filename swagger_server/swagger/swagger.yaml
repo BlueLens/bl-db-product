@@ -219,6 +219,57 @@ paths:
         404:
           description: "Host not found"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /objects:
+    post:
+      tags:
+      - "object"
+      summary: "Added a new Object"
+      description: ""
+      operationId: "add_object"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Object that needs to be added to the db."
+        required: true
+        schema:
+          $ref: "#/definitions/Object"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AddObjectResponse"
+        400:
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.object_controller"
+  /objects/{objectId}:
+    get:
+      tags:
+      - "object"
+      summary: "Find Object by ID"
+      description: "Returns a single Object"
+      operationId: "get_object_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "objectId"
+        in: "path"
+        description: "ID of Object to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetObjectResponse"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+      x-swagger-router-controller: "swagger_server.controllers.object_controller"
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -341,6 +392,38 @@ definitions:
           $ref: "#/definitions/Feedback"
       version:
         $ref: "#/definitions/Version"
+  Object:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      product_id:
+        type: "string"
+      version:
+        type: "string"
+      class_code:
+        type: "string"
+      class_name:
+        type: "string"
+      storage:
+        type: "string"
+      bucket:
+        type: "string"
+      color:
+        type: "integer"
+        format: "int32"
+      texture:
+        type: "string"
+      fabric:
+        type: "string"
+      shape:
+        type: "string"
+      part:
+        type: "string"
+      style:
+        type: "string"
   AddProductResponse:
     type: "object"
     properties:
@@ -395,6 +478,20 @@ definitions:
         type: "string"
       data:
         $ref: "#/definitions/Version"
+  AddObjectResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/AddObjectResponse_data"
+  GetObjectResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/Object"
   AddProductResponse_data:
     properties:
       product_id:
@@ -402,6 +499,10 @@ definitions:
   AddVersionResponse_data:
     properties:
       version_id:
+        type: "string"
+  AddObjectResponse_data:
+    properties:
+      object_id:
         type: "string"
 externalDocs:
   description: "Find out more about BlueLens"
