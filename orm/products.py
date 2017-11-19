@@ -84,11 +84,16 @@ class Products(DataBase):
     response_status = 200
 
     try:
-      r = orm.products.find_one({"_id": ObjectId(product_id)})
+      response = orm.products.find({"host_code": host_code})
       res.message = 'Successful'
-      product = Product.from_dict(r)
-      product.id = str(r['_id'])
-      res.data = product.to_dict()
+
+      products = []
+      for r in response:
+        print(r)
+        product = Product.from_dict(r)
+        product.id = str(r['_id'])
+        products.append(product)
+      res.data = products
     except Exception as e:
       res.message = str(e)
       response_status = 400
