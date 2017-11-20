@@ -34,10 +34,10 @@ class Products(DataBase):
     data = AddProductResponseData()
     response_status = 200
     if connexion.request.is_json:
-      body = Product.from_dict(connexion.request.get_json())
+      product = connexion.request.get_json()
 
       try:
-        r = orm.products.insert(body.to_dict())
+        r = orm.products.insert(product)
         res.message = 'Successful'
         data.product_id = str(r)
         res.data = data
@@ -55,12 +55,12 @@ class Products(DataBase):
     res = UpdateProductResponse()
     response_status = 200
     if connexion.request.is_json:
-      product = Product.from_dict(connexion.request.get_json())
-      log.debug(product)
+      product_json = connexion.request.get_json()
+      log.debug(product_json)
 
       try:
-        r = orm.products.update_one({"_id": ObjectId(product.id)},
-                                    {"$set": product.to_dict()})
+        r = orm.products.update_one({"_id": ObjectId(product_json['id'])},
+                                    {"$set": product_json})
         if r.modified_count > 0:
           res.message = 'Successfully updated'
         elif r.modified_count == 0:
@@ -74,7 +74,7 @@ class Products(DataBase):
 
   @staticmethod
   def get_product_by_id(product_id):
-    print('get_product')
+    log.info('get_product_by_id')
     orm = Products()
     res = GetProductResponse()
     response_status = 200
