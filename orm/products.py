@@ -118,6 +118,26 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
+  def get_product_by_number(product_no):
+    log.info('get_product_by_number')
+    orm = Products()
+    res = GetProductResponse()
+    response_status = 200
+
+    try:
+      r = orm.products.find_one({"product_no": product_no})
+      res.message = 'Successful'
+      product = Product.from_dict(r)
+      product.id = str(r['_id'])
+      res.data = product.to_dict()
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    log.debug(res)
+    return res, response_status
+
+  @staticmethod
   def delete_product_by_id(product_id):
     orm = Products()
     res = DeleteProductResponse()
