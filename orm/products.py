@@ -118,14 +118,14 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
-  def get_product_by_number(product_no):
+  def get_product_by_host_code_and_product_no(host_code, product_no):
     log.info('get_product_by_number')
     orm = Products()
     res = GetProductResponse()
     response_status = 200
 
     try:
-      r = orm.products.find_one({"product_no": product_no})
+      r = orm.products.find_one({"host_code": host_code, "product_no": product_no})
       res.message = 'Successful'
       product = Product.from_dict(r)
       product.id = str(r['_id'])

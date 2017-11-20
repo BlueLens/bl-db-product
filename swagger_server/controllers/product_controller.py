@@ -47,16 +47,18 @@ def get_product_by_id(productId):
     print(productId)
     return Products.get_product_by_id(productId)
 
-def get_product_by_no(productNo):
+def get_products_by_hostcode_and_product_no(hostCode, productNo):
     """
-    Find Product by Product Number
-    Returns a single Product
-    :param productNo: Product Number of Product to return
+    Get Product by hostCode and productNo
+    Returns Product belongs to a Host and productNo
+    :param hostCode:
+    :type hostCode: str
+    :param productNo:
     :type productNo: str
 
     :rtype: GetProductResponse
     """
-    return Products.get_product_by_number(productNo)
+    return Products.get_product_by_host_code_and_product_no(hostCode, productNo)
 
 def get_products_by_hostcode(hostCode):
     """

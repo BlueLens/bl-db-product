@@ -49,16 +49,6 @@ class TestProductController(BaseTestCase):
                                     method='GET')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_get_product_by_no(self):
-        """
-        Test case for get_product_by_no
-
-        Find Product by Product Number
-        """
-        response = self.client.open('//products/numbers/{productNo}'.format(productNo='productNo_example'),
-                                    method='GET')
-        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
-
     def test_get_products_by_hostcode(self):
         """
         Test case for get_products_by_hostcode
@@ -66,6 +56,16 @@ class TestProductController(BaseTestCase):
         Get Product by host_code
         """
         response = self.client.open('//products/hosts/{hostCode}'.format(hostCode='hostCode_example'),
+                                    method='GET')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_get_products_by_hostcode_and_product_no(self):
+        """
+        Test case for get_products_by_hostcode_and_product_no
+
+        Get Product by hostCode and productNo
+        """
+        response = self.client.open('//products/hosts/{hostCode}/products/{productNo}'.format(hostCode='hostCode_example', productNo='productNo_example'),
                                     method='GET')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 

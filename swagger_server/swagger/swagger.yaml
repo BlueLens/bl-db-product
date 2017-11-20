@@ -194,31 +194,6 @@ paths:
         404:
           description: "Product not found"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
-  /products/numbers/{productNo}:
-    get:
-      tags:
-      - "product"
-      summary: "Find Product by Product Number"
-      description: "Returns a single Product"
-      operationId: "get_product_by_no"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "productNo"
-        in: "path"
-        description: "Product Number of Product to return"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/GetProductResponse"
-        400:
-          description: "Invalid Number supplied"
-        404:
-          description: "Product not found"
-      x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /products/hosts/{hostCode}:
     get:
       tags:
@@ -243,6 +218,36 @@ paths:
           description: "Invalid input supplied"
         404:
           description: "Host not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /products/hosts/{hostCode}/products/{productNo}:
+    get:
+      tags:
+      - "product"
+      summary: "Get Product by hostCode and productNo"
+      description: "Returns Product belongs to a Host and productNo"
+      operationId: "get_products_by_hostcode_and_product_no"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hostCode"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "productNo"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetProductResponse"
+        400:
+          description: "Invalid input supplied"
+        404:
+          description: "Host or productNo not found"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /objects:
     post:
