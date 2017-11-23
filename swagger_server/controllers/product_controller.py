@@ -71,6 +71,17 @@ def get_products_by_hostcode(hostCode):
     """
     return Products.get_product_by_host_code(hostCode)
 
+def get_products_by_ids(productIds):
+    """
+    Find Products by IDs
+    Returns Products
+    :param productIds: IDs of Products to return
+    :type productIds: List[str]
+
+    :rtype: GetProductsResponse
+    """
+    return Products.get_products_by_ids(productIds)
+
 def update_product(body):
     """
     Update an existing Product

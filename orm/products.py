@@ -93,6 +93,32 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
+  def get_products_by_ids(product_ids):
+    log.info('get_product_by_id')
+    orm = Products()
+    res = GetProductsResponse()
+    response_status = 200
+
+    try:
+      ids = []
+      for id in product_ids:
+        ids.append(ObjectId(id))
+
+      res_products = orm.products.find({"_id": {"$in": ids}})
+      products = []
+      for p in res_products:
+        p['sub_images'] = None
+        products.append(Product.from_dict(p))
+      res.message = 'Successful'
+      res.data = products
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    log.debug(res)
+    return res, response_status
+
+  @staticmethod
   def get_product_by_host_code(host_code):
     log.info('get_product_by_host_code')
     orm = Products()
