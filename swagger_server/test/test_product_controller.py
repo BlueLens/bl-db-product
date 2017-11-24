@@ -81,6 +81,16 @@ class TestProductController(BaseTestCase):
                                     query_string=query_string)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
+    def test_get_products_by_image_id_and_object_id(self):
+        """
+        Test case for get_products_by_image_id_and_object_id
+
+        Get Products by imageId and objectId
+        """
+        response = self.client.open('//products/images/{imageId}/objects/{objectId}'.format(imageId='imageId_example', objectId=56),
+                                    method='GET')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
     def test_update_product(self):
         """
         Test case for update_product

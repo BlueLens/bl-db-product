@@ -3,6 +3,7 @@ import os
 from bson.objectid import ObjectId
 from orm.database import DataBase
 from swagger_server.models.product import Product
+from swagger_server.models.image import Image
 from swagger_server.models.add_product_response import AddProductResponse
 from swagger_server.models.get_product_response import GetProductResponse
 from swagger_server.models.get_products_response import GetProductsResponse
@@ -136,6 +137,27 @@ class Products(DataBase):
         product.id = str(r['_id'])
         products.append(product)
       res.data = products
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    log.debug(res)
+    return res, response_status
+
+  @staticmethod
+  def get_products_by_image_id_and_object_id(image_id, object_id):
+    log.info('get_products_by_image_id_and_object_id')
+    orm = Products()
+    res = GetProductResponse()
+    response_status = 200
+
+    try:
+      r = orm.images.find_one({"_id": ObjectId(image_id)})
+      res.message = 'Successful'
+      image = Image.from_dict(r)
+      boxes = image.boxes
+      products = boxes[int(object_id)]
+      res.data = products.to_dict()
     except Exception as e:
       res.message = str(e)
       response_status = 400

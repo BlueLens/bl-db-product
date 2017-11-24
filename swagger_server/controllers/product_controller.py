@@ -34,6 +34,18 @@ def delete_product_by_id(productId):
     print(productId)
     return Products.delete_product_by_id(productId)
 
+def get_products_by_image_id_and_object_id(imageId, objectId):
+    """
+    Get Products by imageId and objectId
+    Returns Products belongs to a imageId and objectId
+    :param imageId:
+    :type imageId: str
+    :param objectId:
+    :type objectId: str
+
+    :rtype: GetProductsResponse
+    """
+    return Products.get_products_by_image_id_and_object_id(imageId, objectId)
 
 def get_product_by_id(productId):
     """
