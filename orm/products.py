@@ -27,6 +27,7 @@ class Products(DataBase):
   def __init__(self):
     super().__init__()
     self.products = self.db.products
+    self.images = self.db.images
 
   @staticmethod
   def add_product(connexion):
@@ -147,8 +148,10 @@ class Products(DataBase):
   @staticmethod
   def get_products_by_image_id_and_object_id(image_id, object_id):
     log.info('get_products_by_image_id_and_object_id')
+    log.debug(image_id)
+    log.debug(object_id)
     orm = Products()
-    res = GetProductResponse()
+    res = GetProductsResponse()
     response_status = 200
 
     try:
@@ -156,8 +159,8 @@ class Products(DataBase):
       res.message = 'Successful'
       image = Image.from_dict(r)
       boxes = image.boxes
-      products = boxes[int(object_id)]
-      res.data = products.to_dict()
+      products = boxes[int(object_id)]['products']
+      res.data = products
     except Exception as e:
       res.message = str(e)
       response_status = 400
