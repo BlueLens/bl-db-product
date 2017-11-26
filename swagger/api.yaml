@@ -473,6 +473,10 @@ definitions:
         type: array
         items:
           type: string
+      sub_images_mobile:
+        type: array
+        items:
+          type: string
       sizes:
         type: array
         items:

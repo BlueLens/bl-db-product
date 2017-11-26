@@ -142,7 +142,7 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
+    # log.debug(res)
     return res, response_status
 
   @staticmethod
