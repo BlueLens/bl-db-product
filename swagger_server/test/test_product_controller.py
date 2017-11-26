@@ -55,8 +55,11 @@ class TestProductController(BaseTestCase):
 
         Get Product by host_code
         """
+        query_string = [('offset', 56),
+                        ('limit', 56)]
         response = self.client.open('//products/hosts/{hostCode}'.format(hostCode='hostCode_example'),
-                                    method='GET')
+                                    method='GET',
+                                    query_string=query_string)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
     def test_get_products_by_hostcode_and_product_no(self):

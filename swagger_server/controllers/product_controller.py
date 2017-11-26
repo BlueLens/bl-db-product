@@ -72,16 +72,20 @@ def get_products_by_hostcode_and_product_no(hostCode, productNo):
     """
     return Products.get_product_by_host_code_and_product_no(hostCode, productNo)
 
-def get_products_by_hostcode(hostCode):
+def get_products_by_hostcode(hostCode, offset=None, limit=None):
     """
     Get Product by host_code
     Returns Products belongs to a Host
     :param hostCode:
     :type hostCode: str
+    :param offset:
+    :type offset: int
+    :param limit:
+    :type limit: int
 
     :rtype: GetProductsResponse
     """
-    return Products.get_product_by_host_code(hostCode)
+    return Products.get_product_by_host_code(hostCode, offset, limit)
 
 def get_products_by_ids(productIds):
     """

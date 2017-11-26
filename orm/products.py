@@ -121,14 +121,14 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
-  def get_product_by_host_code(host_code):
+  def get_product_by_host_code(host_code, offset, limit):
     log.info('get_product_by_host_code')
     orm = Products()
     res = GetProductsResponse()
     response_status = 200
 
     try:
-      response = orm.products.find({"host_code": host_code})
+      response = orm.products.find({"host_code": host_code}).skip(offset).limit(limit)
       res.message = 'Successful'
 
       products = []
