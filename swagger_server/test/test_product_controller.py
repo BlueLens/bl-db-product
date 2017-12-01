@@ -94,14 +94,27 @@ class TestProductController(BaseTestCase):
                                     method='GET')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
-    def test_update_product(self):
+    def test_update_product_by_hostcode_and_productno(self):
         """
-        Test case for update_product
+        Test case for update_product_by_hostcode_and_productno
 
         Update an existing Product
         """
         body = Product()
-        response = self.client.open('//products',
+        response = self.client.open('//products/hosts/{hostCode}/products/{productNo}'.format(hostCode='hostCode_example', productNo='productNo_example'),
+                                    method='PUT',
+                                    data=json.dumps(body),
+                                    content_type='application/json')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_update_product_by_id(self):
+        """
+        Test case for update_product_by_id
+
+        Update an existing Product
+        """
+        body = Product()
+        response = self.client.open('//products/{productId}'.format(productId='productId_example'),
                                     method='PUT',
                                     data=json.dumps(body),
                                     content_type='application/json')

@@ -98,7 +98,22 @@ def get_products_by_ids(productIds):
     """
     return Products.get_products_by_ids(productIds)
 
-def update_product(body):
+def update_product_by_hostcode_and_productno(hostCode, productNo, body):
+    """
+    Update an existing Product
+
+    :param hostCode:
+    :type hostCode: str
+    :param productNo:
+    :type productNo: str
+    :param body: Product object that needs to be updated to the store
+    :type body: dict | bytes
+
+    :rtype: UpdateProductResponse
+    """
+    return Products.update_product_by_hostcode_and_productno(connexion, hostCode, productNo)
+
+def update_product_by_id(body):
     """
     Update an existing Product
     
@@ -107,4 +122,4 @@ def update_product(body):
 
     :rtype: UpdateProductResponse
     """
-    return Products.update_product(connexion)
+    return Products.update_product_by_id(connexion)

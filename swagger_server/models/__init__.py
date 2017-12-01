@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import
 # import models into model package
+from .add_host_response import AddHostResponse
+from .add_host_response_data import AddHostResponseData
 from .add_image_response import AddImageResponse
 from .add_image_response_data import AddImageResponseData
 from .add_object_response import AddObjectResponse
@@ -19,6 +21,7 @@ from .get_object_response import GetObjectResponse
 from .get_product_response import GetProductResponse
 from .get_products_response import GetProductsResponse
 from .get_version_response import GetVersionResponse
+from .host import Host
 from .image import Image
 from .latest_version_response import LatestVersionResponse
 from .object import Object

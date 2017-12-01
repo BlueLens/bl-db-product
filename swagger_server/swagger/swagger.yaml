@@ -143,35 +143,6 @@ paths:
         400:
           description: "Invalid input"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
-    put:
-      tags:
-      - "product"
-      summary: "Update an existing Product"
-      description: ""
-      operationId: "update_product"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Product object that needs to be updated to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Product"
-      responses:
-        200:
-          description: "successfully updated"
-          schema:
-            $ref: "#/definitions/UpdateProductResponse"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Product not found"
-        405:
-          description: "Validation exception"
-      x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /products/{productId}:
     get:
       tags:
@@ -196,6 +167,40 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Product not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+    put:
+      tags:
+      - "product"
+      summary: "Update an existing Product"
+      description: ""
+      operationId: "update_product_by_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "productId"
+        in: "path"
+        description: "ID of Product to return"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be updated to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        200:
+          description: "successfully updated"
+          schema:
+            $ref: "#/definitions/UpdateProductResponse"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+        405:
+          description: "Validation exception"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
     delete:
       tags:
@@ -319,6 +324,45 @@ paths:
         404:
           description: "Host or productNo not found"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
+    put:
+      tags:
+      - "product"
+      summary: "Update an existing Product"
+      description: ""
+      operationId: "update_product_by_hostcode_and_productno"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hostCode"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "productNo"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be updated to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        200:
+          description: "successfully updated"
+          schema:
+            $ref: "#/definitions/UpdateProductResponse"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+        405:
+          description: "Validation exception"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /objects:
     post:
       tags:
@@ -396,6 +440,32 @@ paths:
         400:
           description: "Invalid input"
       x-swagger-router-controller: "swagger_server.controllers.image_controller"
+  /hosts:
+    post:
+      tags:
+      - "host"
+      summary: "Add a new HOst"
+      description: ""
+      operationId: "add_host"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Host object that needs to be added to the db."
+        required: true
+        schema:
+          $ref: "#/definitions/Host"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AddHostResponse"
+        400:
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.host_controller"
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -606,6 +676,12 @@ definitions:
   UpdateProductResponse:
     type: "object"
     properties:
+      modified_count:
+        type: "integer"
+        format: "int32"
+      created_count:
+        type: "integer"
+        format: "int32"
       message:
         type: "string"
   DeleteProductResponse:
@@ -660,6 +736,22 @@ definitions:
         type: "string"
       data:
         $ref: "#/definitions/AddImageResponse_data"
+  Host:
+    type: "object"
+    properties:
+      host_code:
+        type: "string"
+      host_url:
+        type: "string"
+      host_name:
+        type: "string"
+  AddHostResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/AddHostResponse_data"
   AddProductResponse_data:
     properties:
       product_id:
@@ -675,6 +767,10 @@ definitions:
   AddImageResponse_data:
     properties:
       image_id:
+        type: "string"
+  AddHostResponse_data:
+    properties:
+      host_id:
         type: "string"
 externalDocs:
   description: "Find out more about BlueLens"

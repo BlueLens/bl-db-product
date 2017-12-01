@@ -1,5 +1,6 @@
 
 import os
+import time
 from bson.objectid import ObjectId
 from orm.database import DataBase
 from swagger_server.models.product import Product
@@ -31,6 +32,7 @@ class Products(DataBase):
 
   @staticmethod
   def add_product(connexion):
+    start_time = time.time()
     orm = Products()
     res = AddProductResponse()
     data = AddProductResponseData()
@@ -47,12 +49,13 @@ class Products(DataBase):
         res.message = str(e)
         response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('add_product time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
-  def update_product(connexion):
-    log.info('update_product')
+  def update_product_by_id(connexion):
+    start_time = time.time()
     orm = Products()
     res = UpdateProductResponse()
     response_status = 200
@@ -63,20 +66,50 @@ class Products(DataBase):
       try:
         r = orm.products.update_one({"_id": ObjectId(product_json['id'])},
                                     {"$set": product_json})
+        res.modified_count = r.modified_count
         if r.modified_count > 0:
-          res.message = 'Successfully updated'
+          res.message = 'successfully updated'
         elif r.modified_count == 0:
-          res.message = 'Nothing to update'
+          res.message = 'nothing to update'
       except Exception as e:
         res.message = str(e)
         response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('update_product time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
+  def update_product_by_hostcode_and_productno(connexion, host_code, product_no):
+    start_time = time.time()
+    orm = Products()
+    res = UpdateProductResponse()
+    response_status = 200
+    if connexion.request.is_json:
+      product_json = connexion.request.get_json()
+      log.debug(product_json)
+
+      try:
+        r = orm.products.update_one({"host_code": host_code, "product_no": product_no},
+                                    {"$set": product_json},
+                                    {"$upsert":True})
+        res.modified_count = r.modified_count
+        if r.modified_count > 0:
+          res.message = 'successfully updated'
+        elif r.modified_count == 0:
+          res.message = 'nothing to update'
+      except Exception as e:
+        res.message = str(e)
+        response_status = 400
+
+    elapsed_time = time.time() - start_time
+    log.info('update_product time: ' + str(elapsed_time))
+    return res, response_status
+
+
+  @staticmethod
   def get_product_by_id(product_id):
-    log.info('get_product_by_id')
+    start_time = time.time()
     orm = Products()
     res = GetProductResponse()
     response_status = 200
@@ -91,12 +124,13 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('update_product time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
   def get_products_by_ids(product_ids):
-    log.info('get_product_by_id')
+    start_time = time.time()
     orm = Products()
     res = GetProductsResponse()
     response_status = 200
@@ -117,12 +151,13 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_products_by_ids time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
-  def get_product_by_host_code(host_code, offset, limit):
-    log.info('get_product_by_host_code')
+  def get_product_by_host_code(host_code, offset=0, limit=1000):
+    start_time = time.time()
     orm = Products()
     res = GetProductsResponse()
     response_status = 200
@@ -143,11 +178,13 @@ class Products(DataBase):
       response_status = 400
 
     # log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_product_by_host_code time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
   def get_products_by_image_id_and_object_id(image_id, object_id):
-    log.info('get_products_by_image_id_and_object_id')
+    start_time = time.time()
     log.debug(image_id)
     log.debug(object_id)
     orm = Products()
@@ -165,12 +202,13 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_products_by_image_id_and_object_id time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
   def get_product_by_host_code_and_product_no(host_code, product_no):
-    log.info('get_product_by_number')
+    start_time = time.time()
     orm = Products()
     res = GetProductResponse()
     response_status = 200
@@ -185,11 +223,13 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_product_by_host_code_and_product_no time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
   def delete_product_by_id(product_id):
+    start_time = time.time()
     orm = Products()
     res = DeleteProductResponse()
     response_status = 200
@@ -204,6 +244,6 @@ class Products(DataBase):
       res.message = str(e)
       response_status = 400
 
-    log.debug(res)
-
+    elapsed_time = time.time() - start_time
+    log.info('delete_product_by_id time: ' + str(elapsed_time))
     return res, response_status
