@@ -54,29 +54,26 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
-  def update_product_by_id(connexion):
+  def update_product_by_id(product_id, product):
     start_time = time.time()
     orm = Products()
     res = UpdateProductResponse()
     response_status = 200
-    if connexion.request.is_json:
-      product_json = connexion.request.get_json()
-      log.debug(product_json)
 
-      try:
-        r = orm.products.update_one({"_id": ObjectId(product_json['id'])},
-                                    {"$set": product_json})
-        res.modified_count = r.modified_count
-        if r.modified_count > 0:
-          res.message = 'successfully updated'
-        elif r.modified_count == 0:
-          res.message = 'nothing to update'
-      except Exception as e:
-        res.message = str(e)
-        response_status = 400
+    try:
+      r = orm.products.update_one({"_id": ObjectId(product_id)},
+                                  {"$set": product})
+      res.modified_count = r.modified_count
+      if r.modified_count > 0:
+        res.message = 'successfully updated'
+      elif r.modified_count == 0:
+        res.message = 'nothing to update'
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
 
-    elapsed_time = time.time() - start_time
-    log.info('update_product time: ' + str(elapsed_time))
+    # elapsed_time = time.time() - start_time
+    # log.info('update_product time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
