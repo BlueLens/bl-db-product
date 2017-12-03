@@ -98,6 +98,23 @@ def get_products_by_ids(productIds):
     """
     return Products.get_products_by_ids(productIds)
 
+def get_products_by_version_id(versionId, is_indexed=None, offset=0, limit=100):
+    """
+    Get Product by versionId
+    Returns Products belongs to a Version
+    :param versionId:
+    :type versionId: str
+    :param is_indexed:
+    :type is_indexed: bool
+    :param offset:
+    :type offset: int
+    :param limit:
+    :type limit: int
+
+    :rtype: GetProductsResponse
+    """
+    return Products.get_products_by_version_id(versionId, is_indexed, offset, limit)
+
 def update_product_by_hostcode_and_productno(hostCode, productNo, body):
     """
     Update an existing Product

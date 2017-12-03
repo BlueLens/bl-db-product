@@ -128,6 +128,7 @@ class Products(DataBase):
     log.info('update_product time: ' + str(elapsed_time))
     return res, response_status
 
+
   @staticmethod
   def get_products_by_ids(product_ids):
     start_time = time.time()
@@ -153,6 +154,43 @@ class Products(DataBase):
 
     elapsed_time = time.time() - start_time
     log.info('get_products_by_ids time: ' + str(elapsed_time))
+    return res, response_status
+
+  @staticmethod
+  def get_products_by_version_id(version_id, is_indexed, offset, limit):
+    start_time = time.time()
+    orm = Products()
+    res = GetProductsResponse()
+    response_status = 200
+
+    try:
+      response = orm.products.find({"version_id": version_id,
+                                    "is_indexed": is_indexed})\
+                                    .skip(offset).limit(limit)
+
+      res.message = 'Successful'
+
+      products = []
+      for r in response:
+        log.debug(r)
+        product = Product.from_dict(r)
+        product.id = str(r['_id'])
+        products.append(product)
+
+      if len(products) == 0:
+        res.message = 'No matched products'
+        response_status = 404
+        res.data = None
+      else:
+        res.data = products
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    # log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_product_by_host_code time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod

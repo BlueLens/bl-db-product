@@ -94,6 +94,20 @@ class TestProductController(BaseTestCase):
                                     method='GET')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
+    def test_get_products_by_version_id(self):
+        """
+        Test case for get_products_by_version_id
+
+        Get Product by versionId
+        """
+        query_string = [('is_indexed', true),
+                        ('offset', 56),
+                        ('limit', 56)]
+        response = self.client.open('//products/versions/{versionId}'.format(versionId='versionId_example'),
+                                    method='GET',
+                                    query_string=query_string)
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
     def test_update_product_by_hostcode_and_productno(self):
         """
         Test case for update_product_by_hostcode_and_productno
