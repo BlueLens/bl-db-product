@@ -50,7 +50,7 @@ class Products(DataBase):
         response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('add_product time: ' + str(elapsed_time))
+    log.debug('add_product time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -103,7 +103,7 @@ class Products(DataBase):
         response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('update_product time: ' + str(elapsed_time))
+    log.debug('update_product time: ' + str(elapsed_time))
     return res, response_status
 
 
@@ -125,7 +125,7 @@ class Products(DataBase):
       response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('update_product time: ' + str(elapsed_time))
+    log.debug('get_product_by_id time: ' + str(elapsed_time))
     return res, response_status
 
 
@@ -153,7 +153,7 @@ class Products(DataBase):
       response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('get_products_by_ids time: ' + str(elapsed_time))
+    log.debug('get_products_by_ids time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -190,7 +190,7 @@ class Products(DataBase):
 
     # log.debug(res)
     elapsed_time = time.time() - start_time
-    log.info('get_product_by_host_code time: ' + str(elapsed_time))
+    log.debug('get_products_by_version_id time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -217,7 +217,7 @@ class Products(DataBase):
 
     # log.debug(res)
     elapsed_time = time.time() - start_time
-    log.info('get_product_by_host_code time: ' + str(elapsed_time))
+    log.info('get_products_by_host_code time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -241,7 +241,7 @@ class Products(DataBase):
       response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('get_products_by_image_id_and_object_id time: ' + str(elapsed_time))
+    log.debug('get_products_by_image_id_and_object_id time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -262,7 +262,7 @@ class Products(DataBase):
       response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('get_product_by_host_code_and_product_no time: ' + str(elapsed_time))
+    log.debug('get_product_by_host_code_and_product_no time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -300,7 +300,7 @@ class Products(DataBase):
 
     # log.debug(res)
     elapsed_time = time.time() - start_time
-    log.info('get_product_by_host_code time: ' + str(elapsed_time))
+    log.debug('get_product_by_host_code time: ' + str(elapsed_time))
     return res, response_status
 
   @staticmethod
@@ -315,11 +315,38 @@ class Products(DataBase):
         res.message = 'Successfully deleted'
       else:
         response_status = 404
-        res.message = 'Product not found'
+        res.message = 'None of Products are deleted'
     except Exception as e:
       res.message = str(e)
       response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.info('delete_product_by_id time: ' + str(elapsed_time))
+    log.debug('delete_product_by_id time: ' + str(elapsed_time))
+    return res, response_status
+
+  @staticmethod
+  def delete_products_by_hostcode_and_version_id(host_code, version_id, except_version=True):
+    start_time = time.time()
+    orm = Products()
+    res = DeleteProductResponse()
+    response_status = 200
+    try:
+
+      if except_version == True:
+        r = orm.products.delete_many({"host_code": host_code,
+                                      "version_id": {"$ne": version_id}})
+      else:
+        r = orm.products.delete_many({"host_code": host_code,
+                                      "version_id": version_id})
+      if r.deleted_count > 0:
+        res.message = 'Successfully deleted: ' + str(r.deleted_count)
+      else:
+        response_status = 404
+        res.message = 'None of Products are deleted'
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    elapsed_time = time.time() - start_time
+    log.debug('delete_product_by_hostcode_and_version_id time: ' + str(elapsed_time))
     return res, response_status

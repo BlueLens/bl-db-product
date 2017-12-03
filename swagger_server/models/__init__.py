@@ -15,6 +15,8 @@ from .box_array import BoxArray
 from .box_object import BoxObject
 from .boxes_array import BoxesArray
 from .delete_product_response import DeleteProductResponse
+from .delete_products_response import DeleteProductsResponse
+from .delete_products_response_data import DeleteProductsResponseData
 from .feedback import Feedback
 from .get_hosts_response import GetHostsResponse
 from .get_object_response import GetObjectResponse

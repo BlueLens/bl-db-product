@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 from swagger_server.models.add_product_response import AddProductResponse
 from swagger_server.models.delete_product_response import DeleteProductResponse
+from swagger_server.models.delete_products_response import DeleteProductsResponse
 from swagger_server.models.get_product_response import GetProductResponse
 from swagger_server.models.get_products_response import GetProductsResponse
 from swagger_server.models.product import Product
@@ -37,6 +38,18 @@ class TestProductController(BaseTestCase):
         """
         response = self.client.open('//products/{productId}'.format(productId='productId_example'),
                                     method='DELETE')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
+    def test_delete_products_by_hostcode_and_version_id(self):
+        """
+        Test case for delete_products_by_hostcode_and_version_id
+
+        Delete Products by Hostcode and VersionId
+        """
+        query_string = [('except_version', true)]
+        response = self.client.open('//products/hosts/{hostCode}/versions/{versionId}'.format(hostCode='hostCode_example', versionId='versionId_example'),
+                                    method='DELETE',
+                                    query_string=query_string)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
     def test_get_product_by_id(self):
@@ -78,8 +91,12 @@ class TestProductController(BaseTestCase):
 
         Get Product by hostCode and versionId
         """
+        query_string = [('is_indexed', true),
+                        ('offset', 56),
+                        ('limit', 56)]
         response = self.client.open('//products/hosts/{hostCode}/versions/{versionId}'.format(hostCode='hostCode_example', versionId='versionId_example'),
-                                    method='GET')
+                                    method='GET',
+                                    query_string=query_string)
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
     def test_get_products_by_ids(self):

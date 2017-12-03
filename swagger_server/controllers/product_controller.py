@@ -34,6 +34,21 @@ def delete_product_by_id(productId):
     print(productId)
     return Products.delete_product_by_id(productId)
 
+def delete_products_by_hostcode_and_version_id(hostCode, versionId, except_version=True):
+    """
+    Delete Products by Hostcode and VersionId
+
+    :param hostCode:
+    :type hostCode: str
+    :param versionId:
+    :type versionId: str
+    :param except_version: Delete all Products of versions except the VersionId
+    :type except_version: bool
+
+    :rtype: DeleteProductsResponse
+    """
+    return Products.delete_products_by_hostcode_and_version_id(hostCode, versionId, except_version)
+
 def get_products_by_image_id_and_object_id(imageId, objectId):
     """
     Get Products by imageId and objectId

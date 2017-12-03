@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "This is a API document for Product DB"
-  version: "0.0.1"
+  version: "0.1.0"
   title: "bl-db-product"
   contact:
     email: "master@bluehack.net"
@@ -263,80 +263,6 @@ paths:
         404:
           description: "Host not found"
       x-swagger-router-controller: "swagger_server.controllers.product_controller"
-  /products/versions/{versionId}:
-    get:
-      tags:
-      - "product"
-      summary: "Get Product by versionId"
-      description: "Returns Products belongs to a Version"
-      operationId: "get_products_by_version_id"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "versionId"
-        in: "path"
-        description: ""
-        required: true
-        type: "string"
-      - name: "is_indexed"
-        in: "query"
-        description: ""
-        required: false
-        type: "boolean"
-        format: "int32"
-      - name: "offset"
-        in: "query"
-        description: ""
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "limit"
-        in: "query"
-        description: ""
-        required: false
-        type: "integer"
-        format: "int32"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/GetProductsResponse"
-        400:
-          description: "Invalid input supplied"
-        404:
-          description: "Host not found"
-      x-swagger-router-controller: "swagger_server.controllers.product_controller"
-  /products/images/{imageId}/objects/{objectId}:
-    get:
-      tags:
-      - "product"
-      summary: "Get Products by imageId and objectId"
-      description: "Returns Products belongs to a imageId and objectId"
-      operationId: "get_products_by_image_id_and_object_id"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "imageId"
-        in: "path"
-        description: ""
-        required: true
-        type: "string"
-      - name: "objectId"
-        in: "path"
-        description: ""
-        required: true
-        type: "integer"
-        format: "int32"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/GetProductsResponse"
-        400:
-          description: "Invalid input supplied"
-        404:
-          description: "Host or productNo not found"
-      x-swagger-router-controller: "swagger_server.controllers.product_controller"
   /products/hosts/{hostCode}/products/{productNo}:
     get:
       tags:
@@ -426,6 +352,130 @@ paths:
         description: ""
         required: true
         type: "string"
+      - name: "is_indexed"
+        in: "query"
+        description: ""
+        required: false
+        type: "boolean"
+      - name: "offset"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetProductsResponse"
+        400:
+          description: "Invalid input supplied"
+        404:
+          description: "Host or productNo not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+    delete:
+      tags:
+      - "product"
+      summary: "Delete Products by Hostcode and VersionId"
+      description: ""
+      operationId: "delete_products_by_hostcode_and_version_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hostCode"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "versionId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "except_version"
+        in: "query"
+        description: "Delete all Products of versions except the VersionId"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DeleteProductsResponse"
+        400:
+          description: "Invalid Hostcode supplied"
+        404:
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /products/versions/{versionId}:
+    get:
+      tags:
+      - "product"
+      summary: "Get Product by versionId"
+      description: "Returns Products belongs to a Version"
+      operationId: "get_products_by_version_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "versionId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "is_indexed"
+        in: "query"
+        description: ""
+        required: false
+        type: "boolean"
+      - name: "offset"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetProductsResponse"
+        400:
+          description: "Invalid input supplied"
+        404:
+          description: "Host not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /products/images/{imageId}/objects/{objectId}:
+    get:
+      tags:
+      - "product"
+      summary: "Get Products by imageId and objectId"
+      description: "Returns Products belongs to a imageId and objectId"
+      operationId: "get_products_by_image_id_and_object_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "imageId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "objectId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+        format: "int32"
       responses:
         200:
           description: "successful operation"
@@ -795,6 +845,13 @@ definitions:
     properties:
       message:
         type: "string"
+  DeleteProductsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/DeleteProductsResponse_data"
   AddVersionResponse:
     type: "object"
     properties:
@@ -873,6 +930,11 @@ definitions:
     properties:
       product_id:
         type: "string"
+  DeleteProductsResponse_data:
+    properties:
+      deleted_count:
+        type: "integer"
+        format: "int32"
   GetVersionResponse_data:
     properties:
       id:
