@@ -72,6 +72,16 @@ class TestProductController(BaseTestCase):
                                     method='GET')
         self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
 
+    def test_get_products_by_hostcode_and_version_id(self):
+        """
+        Test case for get_products_by_hostcode_and_version_id
+
+        Get Product by hostCode and versionId
+        """
+        response = self.client.open('//products/hosts/{hostCode}/versions/{versionId}'.format(hostCode='hostCode_example', versionId='versionId_example'),
+                                    method='GET')
+        self.assert200(response, "Response body is : " + response.data.decode('utf-8'))
+
     def test_get_products_by_ids(self):
         """
         Test case for get_products_by_ids

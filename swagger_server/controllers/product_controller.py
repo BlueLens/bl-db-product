@@ -72,6 +72,25 @@ def get_products_by_hostcode_and_product_no(hostCode, productNo):
     """
     return Products.get_product_by_host_code_and_product_no(hostCode, productNo)
 
+def get_products_by_hostcode_and_version_id(hostCode, versionId, is_indexed=False, offset=0, limit=100):
+    """
+    Get Product by hostCode and versionId
+    Returns Product belongs to a Host and VersionId
+    :param hostCode:
+    :type hostCode: str
+    :param versionId:
+    :type versionId: str
+    :param is_indexed:
+    :type is_indexed: bool
+    :param offset:
+    :type offset: int
+    :param limit:
+    :type limit: int
+
+    :rtype: GetProductsResponse
+    """
+    return Products.get_product_by_host_code_and_version_id(hostCode, versionId, is_indexed, offset, limit)
+
 def get_products_by_hostcode(hostCode, offset=None, limit=None):
     """
     Get Product by host_code

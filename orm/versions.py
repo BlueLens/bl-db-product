@@ -3,7 +3,6 @@ from orm.database import DataBase
 
 from swagger_server.models.version import Version
 from swagger_server.models.add_version_response import AddVersionResponse
-from swagger_server.models.add_version_response_data import AddVersionResponseData
 
 from swagger_server.models.get_version_response import GetVersionResponse
 
@@ -17,7 +16,7 @@ class Versions(DataBase):
   def add_version(connexion):
     orm = Versions()
     res = AddVersionResponse()
-    data = AddVersionResponseData()
+    data = Version()
     response_status = 200
 
     if connexion.request.is_json:
@@ -34,8 +33,8 @@ class Versions(DataBase):
             res.message = 'Already existing & Updated with new data'
         else:
           res.message = 'Successfully added'
-          data.version_id = str(r.upserted_id)
-          data.version_name = version_json['version_name']
+          data.id = str(r.upserted_id)
+          data.name = version_json['version_name']
           res.data = data
       except Exception as e:
         res.message = str(e)
