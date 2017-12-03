@@ -441,6 +441,35 @@ paths:
           description: "Invalid input"
       x-swagger-router-controller: "swagger_server.controllers.image_controller"
   /hosts:
+    get:
+      tags:
+      - "host"
+      summary: "Get all hosts"
+      description: "Returns Hosts"
+      operationId: "get_hosts"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetHostsResponse"
+        400:
+          description: "Invalid input supplied"
+      x-swagger-router-controller: "swagger_server.controllers.host_controller"
     post:
       tags:
       - "host"
@@ -676,6 +705,8 @@ definitions:
   UpdateProductResponse:
     type: "object"
     properties:
+      product_id:
+        type: "string"
       modified_count:
         type: "integer"
         format: "int32"
@@ -702,14 +733,14 @@ definitions:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/AddVersionResponse_data"
+        $ref: "#/definitions/GetVersionResponse_data"
   LatestVersionResponse:
     type: "object"
     properties:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/AddVersionResponse_data"
+        $ref: "#/definitions/GetVersionResponse_data"
   AddObjectResponse:
     type: "object"
     properties:
@@ -720,6 +751,8 @@ definitions:
   Version:
     type: "object"
     properties:
+      version_id:
+        type: "string"
       version_name:
         type: "string"
   GetObjectResponse:
@@ -752,11 +785,26 @@ definitions:
         type: "string"
       data:
         $ref: "#/definitions/AddHostResponse_data"
+  GetHostsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Host"
   AddProductResponse_data:
     properties:
       product_id:
         type: "string"
   AddVersionResponse_data:
+    properties:
+      version_id:
+        type: "string"
+      version_name:
+        type: "string"
+  GetVersionResponse_data:
     properties:
       version_name:
         type: "string"

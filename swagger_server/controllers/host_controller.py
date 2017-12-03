@@ -18,3 +18,16 @@ def add_host(body):
     :rtype: AddHostResponse
     """
     return Hosts.add_host(connexion)
+
+def get_hosts(offset=0, limit=1000):
+    """
+    Get all hosts
+    Returns Hosts
+    :param offset:
+    :type offset: int
+    :param limit:
+    :type limit: int
+
+    :rtype: GetHostsResponse
+    """
+    return Hosts.get_hosts(offset, limit)

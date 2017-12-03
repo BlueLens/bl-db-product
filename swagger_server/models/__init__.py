@@ -17,10 +17,12 @@ from .box_object import BoxObject
 from .boxes_array import BoxesArray
 from .delete_product_response import DeleteProductResponse
 from .feedback import Feedback
+from .get_hosts_response import GetHostsResponse
 from .get_object_response import GetObjectResponse
 from .get_product_response import GetProductResponse
 from .get_products_response import GetProductsResponse
 from .get_version_response import GetVersionResponse
+from .get_version_response_data import GetVersionResponseData
 from .host import Host
 from .image import Image
 from .latest_version_response import LatestVersionResponse

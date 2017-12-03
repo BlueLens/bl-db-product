@@ -1,9 +1,11 @@
 import os
 from bson.objectid import ObjectId
+import time
 from orm.database import DataBase
 
 from swagger_server.models.host import Host
 from swagger_server.models.add_host_response import AddHostResponse
+from swagger_server.models.get_hosts_response import GetHostsResponse
 from swagger_server.models.add_host_response_data import AddHostResponseData
 from bluelens_log import Logging
 
@@ -43,11 +45,36 @@ class Hosts(DataBase):
         else:
           res.message = 'Successfully added'
           data.host_id = str(r.upserted_id)
+          res.data = data
 
-        res.data = data
       except Exception as e:
         res.message = str(e)
         response_status = 400
 
+    return res, response_status
+
+  @staticmethod
+  def get_hosts(offset=0, limit=1000):
+    start_time = time.time()
+    orm = Hosts()
+    res = GetHostsResponse()
+    response_status = 200
+
+    try:
+      response = orm.hosts.find({}).skip(offset).limit(limit)
+      res.message = 'Successful'
+
+      hosts = []
+      for h in response:
+        log.debug(h)
+        hosts.append(Host.from_dict(h))
+      res.data = hosts
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    # log.debug(res)
+    elapsed_time = time.time() - start_time
+    log.info('get_hosts time: ' + str(elapsed_time))
     return res, response_status
 

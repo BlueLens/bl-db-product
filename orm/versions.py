@@ -21,13 +21,22 @@ class Versions(DataBase):
     response_status = 200
 
     if connexion.request.is_json:
-      version = Version.from_dict(connexion.request.get_json())
+      version_json = connexion.request.get_json()
 
       try:
-        r = orm.versions.insert(version.to_dict())
-        res.message = 'Successfully added'
-        data.version_id = str(r)
-        res.data = data
+        r = orm.versions.update_one({"version_name": version_json['version_name']},
+                                    {"$set": version_json},
+                                    upsert=True)
+        if r.matched_count > 0:
+          if r.modified_count == 0:
+            res.message = 'Already existing'
+          elif r.modified_count > 0:
+            res.message = 'Already existing & Updated with new data'
+        else:
+          res.message = 'Successfully added'
+          data.version_id = str(r.upserted_id)
+          data.version_name = version_json['version_name']
+          res.data = data
       except Exception as e:
         res.message = str(e)
         response_status = 400

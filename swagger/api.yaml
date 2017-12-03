@@ -450,6 +450,34 @@ paths:
             $ref: '#/definitions/AddHostResponse'
         400:
           description: Invalid input
+    get:
+      tags:
+      - host
+      summary: "Get all hosts"
+      description: "Returns Hosts"
+      operationId: getHosts
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: ""
+        required: false
+        type: integer
+        format: int32
+      - name: "limit"
+        in: "query"
+        description: ""
+        required: false
+        type: integer
+        format: int32
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetHostsResponse"
+        400:
+          description: "Invalid input supplied"
 
 securityDefinitions:
   api_key:
@@ -570,6 +598,8 @@ definitions:
           $ref: "#/definitions/Feedback"
       version_name:
         type: string
+      is_indexed:
+        type: boolean
 
   Object:
     type: object
@@ -673,6 +703,8 @@ definitions:
   UpdateProductResponse:
     type: object
     properties:
+      product_id:
+        type: string
       modified_count:
         type: integer
         format: int32
@@ -696,6 +728,8 @@ definitions:
       data:
         type: object
         properties:
+          version_id:
+            type: string
           version_name:
             type: string
 
@@ -734,6 +768,8 @@ definitions:
   Version:
     type: object
     properties:
+      version_id:
+        type: string
       version_name:
         type: string
 
@@ -776,6 +812,17 @@ definitions:
         properties:
           host_id:
             type: string
+
+  GetHostsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Host"
+
 externalDocs:
   description: Find out more about BlueLens
   url: 'http://bluelens.io'

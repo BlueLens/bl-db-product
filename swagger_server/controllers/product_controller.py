@@ -85,7 +85,7 @@ def get_products_by_hostcode(hostCode, offset=None, limit=None):
 
     :rtype: GetProductsResponse
     """
-    return Products.get_product_by_host_code(hostCode, offset, limit)
+    return Products.get_products_by_host_code(hostCode, offset, limit)
 
 def get_products_by_ids(productIds):
     """

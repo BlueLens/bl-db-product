@@ -95,6 +95,9 @@ class Products(DataBase):
           res.message = 'successfully updated'
         elif r.modified_count == 0:
           res.message = 'nothing to update'
+        elif r.upserted_id != None:
+          res.product_id = str(r.upserted_id)
+          res.message = 'successfully created'
       except Exception as e:
         res.message = str(e)
         response_status = 400
@@ -153,7 +156,7 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
-  def get_product_by_host_code(host_code, offset=0, limit=1000):
+  def get_products_by_host_code(host_code, offset=0, limit=1000):
     start_time = time.time()
     orm = Products()
     res = GetProductsResponse()
