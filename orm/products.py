@@ -89,21 +89,23 @@ class Products(DataBase):
       try:
         r = orm.products.update_one({"host_code": host_code, "product_no": product_no},
                                     {"$set": product_json},
-                                    {"$upsert":True})
+                                    upsert=True)
+        res.created_count = 0
         res.modified_count = r.modified_count
         if r.modified_count > 0:
           res.message = 'successfully updated'
-        elif r.modified_count == 0:
-          res.message = 'nothing to update'
         elif r.upserted_id != None:
           res.product_id = str(r.upserted_id)
+          res.created_count = 1
           res.message = 'successfully created'
+        elif r.modified_count == 0:
+          res.message = 'nothing to update'
       except Exception as e:
         res.message = str(e)
         response_status = 400
 
     elapsed_time = time.time() - start_time
-    log.debug('update_product time: ' + str(elapsed_time))
+    log.debug('update_product_by_hostcode_and_productno time: ' + str(elapsed_time))
     return res, response_status
 
 
