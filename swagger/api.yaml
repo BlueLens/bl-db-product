@@ -862,7 +862,18 @@ definitions:
       message:
         type: string
       data:
-        $ref: "#/definitions/Version"
+        type: object
+        properties:
+          version_id:
+            type: string
+          version_name:
+            type: string
+          modified_count:
+            type: integer
+            format: int32
+          created_count:
+            type: integer
+            format: int32
 
   GetVersionResponse:
     type: object

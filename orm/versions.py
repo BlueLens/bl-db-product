@@ -3,6 +3,7 @@ from orm.database import DataBase
 
 from swagger_server.models.version import Version
 from swagger_server.models.add_version_response import AddVersionResponse
+from swagger_server.models.add_version_response_data import AddVersionResponseData
 
 from swagger_server.models.get_version_response import GetVersionResponse
 
@@ -16,16 +17,18 @@ class Versions(DataBase):
   def add_version(connexion):
     orm = Versions()
     res = AddVersionResponse()
-    data = Version()
+    data = AddVersionResponseData()
     response_status = 200
 
     if connexion.request.is_json:
       version_json = connexion.request.get_json()
 
       try:
-        r = orm.versions.update_one({"version_name": version_json['version_name']},
+        r = orm.versions.update_one({"name": version_json['name']},
                                     {"$set": version_json},
                                     upsert=True)
+        data.modified_count = r.modified_count
+        data.created_count = 0
         if r.matched_count > 0:
           if r.modified_count == 0:
             res.message = 'Already existing'
@@ -33,8 +36,9 @@ class Versions(DataBase):
             res.message = 'Already existing & Updated with new data'
         else:
           res.message = 'Successfully added'
-          data.id = str(r.upserted_id)
-          data.name = version_json['version_name']
+          data.created_count = 1
+          data.version_id = str(r.upserted_id)
+          data.version_name = version_json['name']
           res.data = data
       except Exception as e:
         res.message = str(e)

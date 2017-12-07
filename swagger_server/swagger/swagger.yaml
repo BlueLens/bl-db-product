@@ -858,7 +858,7 @@ definitions:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/Version"
+        $ref: "#/definitions/AddVersionResponse_data"
   GetVersionResponse:
     type: "object"
     properties:
@@ -933,6 +933,18 @@ definitions:
   DeleteProductsResponse_data:
     properties:
       deleted_count:
+        type: "integer"
+        format: "int32"
+  AddVersionResponse_data:
+    properties:
+      version_id:
+        type: "string"
+      version_name:
+        type: "string"
+      modified_count:
+        type: "integer"
+        format: "int32"
+      created_count:
         type: "integer"
         format: "int32"
   GetVersionResponse_data:
