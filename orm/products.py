@@ -84,7 +84,7 @@ class Products(DataBase):
     response_status = 200
     if connexion.request.is_json:
       product_json = connexion.request.get_json()
-      log.debug(product_json)
+      # log.debug(product_json)
 
       try:
         r = orm.products.update_one({"host_code": host_code, "product_no": product_no},
@@ -159,7 +159,7 @@ class Products(DataBase):
     return res, response_status
 
   @staticmethod
-  def get_products_by_version_id(version_id, is_indexed, offset, limit):
+  def get_products_by_version_id(version_id, is_indexed, offset=0, limit=5):
     start_time = time.time()
     orm = Products()
     res = GetProductsResponse()
@@ -174,7 +174,7 @@ class Products(DataBase):
 
       products = []
       for r in response:
-        log.debug(r)
+        # log.debug(r)
         product = Product.from_dict(r)
         product.id = str(r['_id'])
         products.append(product)
@@ -208,7 +208,7 @@ class Products(DataBase):
 
       products = []
       for r in response:
-        log.debug(r)
+        # log.debug(r)
         product = Product.from_dict(r)
         product.id = str(r['_id'])
         products.append(product)
@@ -284,7 +284,7 @@ class Products(DataBase):
 
       products = []
       for r in response:
-        log.debug(r)
+        # log.debug(r)
         product = Product.from_dict(r)
         product.id = str(r['_id'])
         products.append(product)

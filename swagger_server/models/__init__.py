@@ -12,7 +12,7 @@ from .add_product_response import AddProductResponse
 from .add_product_response_data import AddProductResponseData
 from .add_version_response import AddVersionResponse
 from .add_version_response_data import AddVersionResponseData
-from .box_array import BoxArray
+from .box import Box
 from .box_object import BoxObject
 from .boxes_array import BoxesArray
 from .delete_product_response import DeleteProductResponse

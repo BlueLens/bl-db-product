@@ -758,13 +758,21 @@ definitions:
       style:
         type: string
 
-  BoxArray:
-    type: array
-    maxItems: 4
-    items:
-      type: number
-      description: [left, right, top, bottom]
-      format: float
+  Box:
+    type: object
+    properties:
+      left:
+        type: number
+        format: float
+      right:
+        type: number
+        format: float
+      top:
+        type: number
+        format: float
+      bottom:
+        type: number
+        format: float
 
   BoxesArray:
     type: array
@@ -775,7 +783,7 @@ definitions:
     type: object
     properties:
       box:
-        $ref: '#/definitions/BoxArray'
+        $ref: '#/definitions/Box'
       class_code:
         type: string
       class_name:
